@@ -1,18 +1,22 @@
+const arenaElement = document.querySelector('.arenas');
+
 const players = [
     {
         name: "SCORPION",
         hp: 100,
         img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
-        attack: (fight) => {
-            console.log(`${this.name}`)
+        weapon: [],
+        attack: () => {
+            console.log(`${this.name} Fight...`);
         }
     },
     {
         name: "KITANA",
         hp: 70,
         img: 'http://reactmarathon-api.herokuapp.com/assets/kitana.gif',
-        attack: (fight) => {
-            console.log(`${this.name}`)
+        weapon: [],
+        attack: () => {
+            console.log(`${this.name} Fight...`);
         }
     }
 ];
@@ -39,8 +43,6 @@ const createPlayer = (type, player) => {
     characterElement.append(image);
 
     playerElement.append(progressBar, characterElement);
-
-    const arenaElement = document.querySelector('.arenas');
 
     arenaElement.append(playerElement);
 }
