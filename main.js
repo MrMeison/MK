@@ -1,7 +1,9 @@
 const arenaElement = document.querySelector('.arenas');
+const randomButtonElement = arenaElement.querySelector('.button');
 
 const players = [
     {
+        player: 1,
         name: "SCORPION",
         hp: 100,
         img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
@@ -11,8 +13,9 @@ const players = [
         }
     },
     {
+        player: 2,
         name: "KITANA",
-        hp: 70,
+        hp: 100,
         img: 'http://reactmarathon-api.herokuapp.com/assets/kitana.gif',
         weapon: [],
         attack: () => {
@@ -21,7 +24,7 @@ const players = [
     }
 ];
 
-const createPlayer = (type, player) => {
+const renderPlayer = (type, player) => {
     const { name, hp, img } = player;
     const playerElement = document.createElement('div');
     playerElement.classList.add(type);
@@ -46,7 +49,45 @@ const createPlayer = (type, player) => {
 
     arenaElement.append(playerElement);
 }
+const renderPlayers = (players) => {
+    players.forEach((player) => {
+        renderPlayer(`player${player.player}`, player);
+    });
+};
 
-players.forEach((player, index) => {
-    createPlayer(`player${index + 1}`, player);
+const getRandomNumber = (min, max) => {
+    return min + Math.floor(Math.random() * (max - min));
+};
+
+const getRandomItem = (items) => {
+    return items[Math.floor(Math.random() * items.length)];
+};
+
+const getHitValue = () => {
+    return getRandomNumber(1, 20);
+};
+
+const changeHP = (player, value) => {
+    let newHP = player.hp - value;
+    if (newHP < 0) {
+        newHP = 0;
+    }
+    player.hp = newHP;
+};
+
+const rerenderHP = (player) => {
+    const lifeElement = arenaElement.querySelector(`.player${player.player} .life`);
+    lifeElement.style.width = `${player.hp}%`;
+}
+
+randomButtonElement.addEventListener('click', () => {
+    const player = getRandomItem(players);
+    changeHP(player, getHitValue());
+    rerenderHP(player);
+
+    if (player.hp === 0) {
+        randomButtonElement.disabled = true;
+    }
 });
+
+renderPlayers(players);
